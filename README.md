@@ -1,8 +1,17 @@
 # Navi
 
+[![Latest Stable Version](https://poser.pugx.org/log1x/navi/v/stable)](https://packagist.org/packages/log1x/navi) 
+[![Total Downloads](https://poser.pugx.org/log1x/navi/downloads)](https://packagist.org/packages/log1x/navi)
+
 Hate the WordPress NavWalker? Me too.
 
 Navi is a simple package that allows you to return a WordPress menu as an iterable object containing the necessities to build out your menu how you want.
+
+## Requirements
+
+- [Sage](https://github.com/roots/sage) >= 9.0
+- [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3
+- [Composer](https://getcomposer.org/download/)
 
 ## Installation
 
@@ -24,7 +33,7 @@ $navigation = (new Navi())->build('primary_navigation');
 
 ### Sage 10
 
-When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class.
+When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class. Here's an example of adding Navi to a Composer that targets your navigation partial:
 
 ```php
 # Composers/Navigation.php
