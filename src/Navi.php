@@ -58,6 +58,8 @@ class Navi
             if ($item->parent == $parent) {
                 $children = $this->tree($items, $item->id);
 
+                $item->children = [];
+
                 if (! empty($children)) {
                     $item->children = $children;
                 }
