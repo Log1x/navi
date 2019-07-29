@@ -1,6 +1,7 @@
 # Navi
 
 [![Latest Stable Version](https://poser.pugx.org/log1x/navi/v/stable)](https://packagist.org/packages/log1x/navi) 
+![CircleCI](https://img.shields.io/circleci/build/gh/Log1x/navi.svg?style=flat-square)
 [![Total Downloads](https://poser.pugx.org/log1x/navi/downloads)](https://packagist.org/packages/log1x/navi)
 
 Hate the WordPress NavWalker? Me too.
