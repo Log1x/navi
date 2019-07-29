@@ -24,6 +24,9 @@
   "require": {
     "php": ">=7.1"
   },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.4"
+  },
   "extra": {
     "acorn": {
       "providers": [
@@ -33,5 +36,10 @@
         "Navi": "Log1x\\Navi\\NaviFacade"
       }
     }
+  },
+  "scripts": {
+    "lint": [
+      "phpcs --ignore=vendor --extensions=php --standard=PSR12 ."
+    ]
   }
 }
