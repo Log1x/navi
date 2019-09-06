@@ -27,7 +27,13 @@ class Navi
                         'label' => $item->title,
                         'slug' => $item->post_name,
                         'url' => $item->url,
-                        'active' => $item->current
+                        'classes' => $item->classes,
+                        'current' => $item->current,
+                        'current_ancestor' => $item->current_item_ancestor,
+                        'current_parent' => $item->current_item_parent,
+                        'description' => $item->description,
+                        'target' => $item->target,
+                        'xfn' => $item->xfn,
                     ];
                 })
         );
