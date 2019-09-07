@@ -26,6 +26,8 @@ $ composer require log1x/navi
 
 ### Basic Usage
 
+By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation items.
+
 ```php
 use Log1x\Navi\Navi;
 
@@ -60,11 +62,9 @@ class Navigation extends Composer
     /**
      * Data to be passed to view before rendering.
      *
-     * @param  array $data
-     * @param  \Illuminate\View\View $view
      * @return array
      */
-    public function with($data, $view)
+    public function with()
     {
         return [
             'navigation' => $this->navigation(),
@@ -74,11 +74,11 @@ class Navigation extends Composer
     /**
      * Returns the primary navigation.
      *
-     * @return string
+     * @return array
      */
     public function navigation()
     {
-        return Navi::build('primary_navigation');
+        return Navi::build('primary_navigation')->toArray();
     }
 }
 ```
@@ -113,33 +113,55 @@ class Navigation extends Composer
 
 ## Example Output
 
-When calling `build()`, it will parse the passed navigation menu and return a simple, nested object of your menu items. By default, `build()` calls `primary_navigation` which is the default menu theme location on Sage.
+When calling `build()`, it will parse the passed navigation menu and return a fluent container containing your menu items. To return an array of objectd, you can call `->toArray()` on `build()`. By default, `build()` calls `primary_navigation` which is the default menu theme location on Sage.
 
 ```php
 array [
-  24677 => {
+  5 => {
     +"parent": false
-    +"id": 24677
+    +"id": 5
     +"label": "Home"
     +"slug": "home"
-    +"url": "/"
+    +"url": "https://sage.test/"
     +"active": true
+    +"activeAncestor": false
+    +"activeParent": false
+    +"classes": "example"
+    +"title": ""
+    +"description": ""
+    +"target": "_blank"
+    +"xfn": ""
+    +"children": []
   }
-  24678 => {
+  6 => {
     +"parent": false
-    +"id": 24678
-    +"label": "Blog"
-    +"slug": "blog"
-    +"url": "#"
+    +"id": 6
+    +"label": "Sample Page"
+    +"slug": "sample-page"
+    +"url": "https://sage.test/sample-page/"
     +"active": false
+    +"activeAncestor": false
+    +"activeParent": false
+    +"classes": ""
+    +"title": ""
+    +"description": ""
+    +"target": ""
+    +"xfn": ""
     +"children": array [
-      24721 => {
-        +"parent": 24678
-        +"id": 24721
+      7 => {
+        +"parent": 6
+        +"id": 7
         +"label": "Example"
         +"slug": "example"
         +"url": "#"
         +"active": false
+        +"activeAncestor": false
+        +"activeParent": false
+        +"classes": ""
+        +"title": ""
+        +"description": ""
+        +"target": ""
+        +"xfn": ""
         +"children": array [
           ...
         ]

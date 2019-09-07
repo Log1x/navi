@@ -2,8 +2,22 @@
 
 namespace Log1x\Navi;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Fluent;
+
 class Navi
 {
+    /**
+     * Blacklisted Classes
+     *
+     * @var array
+     */
+    protected $classes = [
+        'menu-item',
+        'page_item',
+        'page-item',
+    ];
+
     /**
      * Parse the array of WP_Post objects returned by wp_get_nav_menu_items().
      *
@@ -30,7 +44,8 @@ class Navi
                         'active' => $item->current,
                         'activeAncestor' => $item->current_item_ancestor,
                         'activeParent' => $item->current_item_parent,
-                        'classes' => $item->classes,
+                        'classes' => $this->filterClasses($item->classes),
+                        'title' => $item->attr_title,
                         'description' => $item->description,
                         'target' => $item->target,
                         'xfn' => $item->xfn,
@@ -43,7 +58,7 @@ class Navi
      * Returns the menu item's parent if it exists.
      *
      * @param  WP_Post $item
-     * @return integer|boolean
+     * @return int|boolean
      */
     protected function hasParent($item)
     {
@@ -51,11 +66,24 @@ class Navi
     }
 
     /**
+     * Returns a filtered list of classes.
+     *
+     * @param  array  $classes
+     * @return string
+     */
+    protected function filterClasses($classes)
+    {
+        return collect($classes)->filter(function ($class) {
+            return ! Str::contains($class, $this->classes);
+        })->implode(' ');
+    }
+
+    /**
      * Build a multi-dimensional array containing children nav items.
      *
-     * @param  object  $items
-     * @param  integer $parent
-     * @param  array   $branch
+     * @param  object $items
+     * @param  int    $parent
+     * @param  array  $branch
      * @return array
      */
     protected function tree($items, $parent = 0, $branch = [])
@@ -79,10 +107,10 @@ class Navi
     }
 
     /**
-     * Build an object containing our navigation.
+     * Build a fluent instance containing our navigation.
      *
      * @param  int|string|WP_Term $menu
-     * @return object
+     * @return Illuminate\Support\Fluent
      */
     public function build($menu = 'primary_navigation')
     {
@@ -94,8 +122,10 @@ class Navi
             return;
         }
 
-        return $this->parse(
-            wp_get_nav_menu_items($menu)
+        return new Fluent(
+            $this->parse(
+                wp_get_nav_menu_items($menu)
+            )
         );
     }
 }
