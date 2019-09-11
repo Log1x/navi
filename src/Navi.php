@@ -13,6 +13,10 @@ class Navi
      * @var array
      */
     protected $classes = [
+        'current-menu-ancestor',
+        'current-menu-parent',
+        'current_page_ancestor',
+        'current_page_parent',
         'menu-item',
         'page_item',
         'page-item',
