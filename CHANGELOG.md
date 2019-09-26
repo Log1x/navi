@@ -1,3 +1,9 @@
+## v1.0.3 (09-26-2019)
+
+### Enhancements
+
+- Add missing classes to blacklist. (#3)
+
 ## v1.0.2 (09-07-2019)
 
 ### Enhancements

@@ -15,8 +15,11 @@ class Navi
     protected $classes = [
         'current-menu',
         'current_page',
+        'sub-menu',
         'menu-item',
+        'menu_item',
         'page-item',
+        'page_item',
     ];
 
     /**
