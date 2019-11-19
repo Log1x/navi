@@ -42,6 +42,8 @@ class Navi
                     return (object) [
                         'parent' => $this->hasParent($item),
                         'id' => $item->ID,
+                        'db_id' => $item->db_id,
+                        'object_id' => $item->object_id,
                         'label' => $item->title,
                         'slug' => $item->post_name,
                         'url' => $item->url,
