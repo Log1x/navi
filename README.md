@@ -93,16 +93,16 @@ class Navigation extends Composer
         <a href="{{ $item->url }}">
           {{ $item->label }}
         </a>
-        
+
         @if ($item->children)
           <ul class="my-child-menu">
             @foreach ($item->children as $child)
               <li class="my-child-item {{ $child->active ? 'active' : '' }}">
                 <a href="{{ $child->url }}">
-                  {{ $child->label }}
+                  {{ get_field('custom_nav_item_label', $child->object_id) ?: $child->label }}
                 </a>
               </li>
-            @endforeach 
+            @endforeach
           </ul>
         @endif
       </li>
@@ -110,6 +110,18 @@ class Navigation extends Composer
   </ul>
 @endif
 ```
+
+### Page meta fields
+
+You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `object_id` field which is a property of each `$item`.
+
+In the example above, you can see:
+
+```php
+{{ get_field('custom_nav_item_label', $child->object_id) ?: $child->label }}
+```
+
+This will use the custom meta value for the navigation item label and fallback to the item label if it's not set.
 
 ## Example Output
 
@@ -120,6 +132,8 @@ array [
   5 => {
     +"parent": false
     +"id": 5
+    +"db_id": 5
+    +"object_id": "99"
     +"label": "Home"
     +"slug": "home"
     +"url": "https://sage.test/"
@@ -136,6 +150,8 @@ array [
   6 => {
     +"parent": false
     +"id": 6
+    +"db_id": 6
+    +"object_id": "100"
     +"label": "Sample Page"
     +"slug": "sample-page"
     +"url": "https://sage.test/sample-page/"
@@ -151,6 +167,8 @@ array [
       7 => {
         +"parent": 6
         +"id": 7
+        +"db_id": 7
+        +"object_id": "101"
         +"label": "Example"
         +"slug": "example"
         +"url": "#"
