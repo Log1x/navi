@@ -99,7 +99,7 @@ class Navigation extends Composer
             @foreach ($item->children as $child)
               <li class="my-child-item {{ $child->active ? 'active' : '' }}">
                 <a href="{{ $child->url }}">
-                  {{ get_field('custom_nav_item_label', $child->object_id) ?: $child->label }}
+                  {{ $child->label }}
                 </a>
               </li>
             @endforeach
@@ -111,14 +111,14 @@ class Navigation extends Composer
 @endif
 ```
 
-### Page meta fields
+### Page Meta Fields
 
 You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `object_id` field which is a property of each `$item`.
 
-In the example above, you can see:
+An example using ACF:
 
 ```php
-{{ get_field('custom_nav_item_label', $child->object_id) ?: $child->label }}
+{{ get_field('custom_nav_item_label', $item->object_id) ?: $item->label }}
 ```
 
 This will use the custom meta value for the navigation item label and fallback to the item label if it's not set.
