@@ -78,7 +78,8 @@ class Navigation extends Composer
      */
     public function navigation()
     {
-        return Navi::build('primary_navigation')->toArray();
+        $navigation = Navi::build('topbar_navigation') ? Navi::build('topbar_navigation')->toArray() : [];
+        return $navigation;
     }
 }
 ```
