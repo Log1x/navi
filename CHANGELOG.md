@@ -12,8 +12,8 @@
 
 ### Breaking Changes
 
-- Move Facade to Facades directory to avoid aliasing it.
-- Change object_id and db_id to objectId and dbId respectively to remain uniform with the existing camalCased keys
+- Rename `NaviFacade` to `Navi` and move it into a Facades directory to avoid aliasing it. Please use `Log1x\Navi\Facades\Navi` instead.
+- Change `object_id` and `db_id` to `objectId` and `dbId` respectively to remain uniform with the existing camalCased keys
 
 ## v1.0.4 (12-08-2019)
 
