@@ -152,11 +152,11 @@ array [
     +"activeParent": false
     +"children": false
     +"classes": "example"
-    +"db_id": 5
+    +"dbId": 5
     +"description": false
     +"id": 5
     +"label": "Home"
-    +"object_id": "99"
+    +"objectId": "99"
     +"parent": false
     +"slug": "home"
     +"target": "_blank"
@@ -177,11 +177,11 @@ array [
           ...
         ]
         +"classes": false
-        +"db_id": 7
+        +"dbId": 7
         +"description": false
         +"id": 7
         +"label": "Example"
-        +"object_id": "101"
+        +"objectId": "101"
         +"parent": 6
         +"slug": "example"
         +"target": false
@@ -191,11 +191,11 @@ array [
       }
     ]
     +"classes": false
-    +"db_id": 6
+    +"dbId": 6
     +"description": false
     +"id": 6
     +"label": "Sample Page"
-    +"object_id": "100"
+    +"objectId": "100"
     +"parent": false
     +"slug": "sample-page"
     +"target": false
