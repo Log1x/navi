@@ -26,17 +26,34 @@ $ composer require log1x/navi
 
 ### Basic Usage
 
-By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation items.
+By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation menu.
 
 ```php
 use Log1x\Navi\Navi;
 
 $navigation = (new Navi())->build('primary_navigation');
+
+if ($navigation->isEmpty()) {
+  return;
+}
+
+return $navigation->toArray();
+```
+
+When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly. 
+
+Optionally, you may pass a `key` and `default` to call a specific object key with a fallback have it be null, empty, or not set.
+
+```php
+$navigation->get()->name;
+$navigation->get('name', 'My menu title');
 ```
 
 ### Sage 10
 
-When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class. Here's an example of adding Navi to a Composer that targets your navigation partial:
+When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class. 
+
+Here's an example of adding Navi to a Composer that targets your navigation partial:
 
 ```php
 # Composers/Navigation.php
@@ -46,7 +63,7 @@ When using Sage 10, you can take advantage of Navi's Service Provider and Facade
 namespace App\Composers;
 
 use Roots\Acorn\View\Composer;
-use Log1x\Navi\NaviFacade as Navi;
+use Log1x\Navi\Facades\Navi;
 
 class Navigation extends Composer
 {
@@ -56,7 +73,7 @@ class Navigation extends Composer
      * @var array
      */
     protected static $views = [
-        'partials.navigation'
+        'partials.navigation',
     ];
 
     /**
@@ -78,7 +95,7 @@ class Navigation extends Composer
      */
     public function navigation()
     {
-        return Navi::build('primary_navigation')->toArray();
+        return Navi::build();
     }
 }
 ```
@@ -86,10 +103,10 @@ class Navigation extends Composer
 ```php
 # views/partials/navigation.blade.php
 
-@if ($navigation)
+@if ($navigation->isNotEmpty())
   <ul class="my-menu">
-    @foreach ($navigation as $item)
-      <li class="my-menu-item {{ $item->active ? 'active' : '' }}">
+    @foreach ($navigation->toArray() as $item)
+      <li class="my-menu-item {{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }}">
         <a href="{{ $item->url }}">
           {{ $item->label }}
         </a>
@@ -97,7 +114,7 @@ class Navigation extends Composer
         @if ($item->children)
           <ul class="my-child-menu">
             @foreach ($item->children as $child)
-              <li class="my-child-item {{ $child->active ? 'active' : '' }}">
+              <li class="my-child-item {{ $item->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
                 <a href="{{ $child->url }}">
                   {{ $child->label }}
                 </a>
@@ -113,78 +130,78 @@ class Navigation extends Composer
 
 ### Page Meta Fields
 
-You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `object_id` field which is a property of each `$item`.
+You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `objectId` attribute.
 
-An example using ACF:
+Here is an example using ACF with an optional custom label:
 
 ```php
-{{ get_field('custom_nav_item_label', $item->object_id) ?: $item->label }}
+{{ get_field('custom_nav_item_label', $item->objectId) ?: $item->label }}
 ```
-
-This will use the custom meta value for the navigation item label and fallback to the item label if it's not set.
 
 ## Example Output
 
-When calling `build()`, it will parse the passed navigation menu and return a fluent container containing your menu items. To return an array of objectd, you can call `->toArray()` on `build()`. By default, `build()` calls `primary_navigation` which is the default menu theme location on Sage.
+When calling `build()`, Navi will parse the passed navigation menu and return a fluent container containing your menu items. To return an array of objects, simply call `->toArray()`.
+
+By default, `build()` calls `primary_navigation` which is the default menu theme location on Sage.
 
 ```php
 array [
   5 => {
-    +"parent": false
-    +"id": 5
-    +"db_id": 5
-    +"object_id": "99"
-    +"label": "Home"
-    +"slug": "home"
-    +"url": "https://sage.test/"
     +"active": true
     +"activeAncestor": false
     +"activeParent": false
+    +"children": false
     +"classes": "example"
-    +"title": ""
-    +"description": ""
+    +"db_id": 5
+    +"description": false
+    +"id": 5
+    +"label": "Home"
+    +"object_id": "99"
+    +"parent": false
+    +"slug": "home"
     +"target": "_blank"
-    +"xfn": ""
-    +"children": []
+    +"title": false
+    +"url": "https://sage.test/"
+    +"xfn": false
   }
   6 => {
-    +"parent": false
-    +"id": 6
-    +"db_id": 6
-    +"object_id": "100"
-    +"label": "Sample Page"
-    +"slug": "sample-page"
-    +"url": "https://sage.test/sample-page/"
     +"active": false
     +"activeAncestor": false
     +"activeParent": false
-    +"classes": ""
-    +"title": ""
-    +"description": ""
-    +"target": ""
-    +"xfn": ""
     +"children": array [
       7 => {
-        +"parent": 6
-        +"id": 7
-        +"db_id": 7
-        +"object_id": "101"
-        +"label": "Example"
-        +"slug": "example"
-        +"url": "#"
         +"active": false
         +"activeAncestor": false
         +"activeParent": false
-        +"classes": ""
-        +"title": ""
-        +"description": ""
-        +"target": ""
-        +"xfn": ""
         +"children": array [
           ...
         ]
+        +"classes": false
+        +"db_id": 7
+        +"description": false
+        +"id": 7
+        +"label": "Example"
+        +"object_id": "101"
+        +"parent": 6
+        +"slug": "example"
+        +"target": false
+        +"title": false
+        +"url": "#"
+        +"xfn": false
       }
     ]
+    +"classes": false
+    +"db_id": 6
+    +"description": false
+    +"id": 6
+    +"label": "Sample Page"
+    +"object_id": "100"
+    +"parent": false
+    +"slug": "sample-page"
+    +"target": false
+    +"title": false
+    +"url": "https://sage.test/sample-page/"
+    +"xfn": false
   }
 ]
 ```
