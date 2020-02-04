@@ -26,7 +26,7 @@ $ composer require log1x/navi
 
 ### Basic Usage
 
-By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation items.
+By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation menu.
 
 ```php
 use Log1x\Navi\Navi;
@@ -40,9 +40,20 @@ if ($navigation->isEmpty()) {
 return $navigation->toArray();
 ```
 
+When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly. 
+
+Optionally, you may pass a `key` and `default` to call a specific object key with a fallback have it be null, empty, or not set.
+
+```php
+$navigation->get()->name;
+$navigation->get('name', 'My menu title');
+```
+
 ### Sage 10
 
-When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class. Here's an example of adding Navi to a Composer that targets your navigation partial:
+When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class. 
+
+Here's an example of adding Navi to a Composer that targets your navigation partial:
 
 ```php
 # Composers/Navigation.php
@@ -62,7 +73,7 @@ class Navigation extends Composer
      * @var array
      */
     protected static $views = [
-        'partials.navigation'
+        'partials.navigation',
     ];
 
     /**
@@ -95,7 +106,7 @@ class Navigation extends Composer
 @if ($navigation->isNotEmpty())
   <ul class="my-menu">
     @foreach ($navigation->toArray() as $item)
-      <li class="my-menu-item {{ $item->active ? 'active' : '' }}">
+      <li class="my-menu-item {{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }}">
         <a href="{{ $item->url }}">
           {{ $item->label }}
         </a>
@@ -103,7 +114,7 @@ class Navigation extends Composer
         @if ($item->children)
           <ul class="my-child-menu">
             @foreach ($item->children as $child)
-              <li class="my-child-item {{ $child->active ? 'active' : '' }}">
+              <li class="my-child-item {{ $item->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
                 <a href="{{ $child->url }}">
                   {{ $child->label }}
                 </a>
@@ -119,15 +130,13 @@ class Navigation extends Composer
 
 ### Page Meta Fields
 
-You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `object_id` field which is a property of each `$item`.
+You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `objectId` attribute.
 
-An example using ACF:
+Here is an example using ACF with an optional custom label:
 
 ```php
-{{ get_field('custom_nav_item_label', $item->object_id) ?: $item->label }}
+{{ get_field('custom_nav_item_label', $item->objectId) ?: $item->label }}
 ```
-
-This will use the custom meta value for the navigation item label and fallback to the item label if it's not set.
 
 ## Example Output
 
