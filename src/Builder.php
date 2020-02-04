@@ -126,7 +126,7 @@ class Builder
     protected function tree($items, $parent = 0, $branch = [])
     {
         foreach ($items as $item) {
-            if (! empty($item->parent) && $item->parent == $parent) {
+            if ($item->parent == $parent) {
                 $children = $this->tree($items, $item->id);
                 $item->children = ! empty($children) ? $children : [];
 

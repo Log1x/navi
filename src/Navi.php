@@ -8,6 +8,13 @@ use Illuminate\Support\Fluent;
 class Navi extends Fluent
 {
     /**
+     * The current menu object.
+     *
+     * @var mixed
+     */
+    protected $menu;
+
+    /**
      * Build and assign the navigation menu items to the fluent instance.
      *
      * @param  int|string|WP_Term $menu
@@ -19,11 +26,33 @@ class Navi extends Fluent
             $menu = Arr::get(get_nav_menu_locations(), $menu, $menu);
         }
 
+        $this->menu = wp_get_nav_menu_object($menu);
+
         $this->attributes = (new Builder())->build(
-            wp_get_nav_menu_items($menu) ?? []
+            wp_get_nav_menu_items($this->menu)
         );
 
         return $this;
+    }
+
+    /**
+     * Returns the current navigation menu object.
+     *
+     * @param  string $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public function get($key = null, $default = null)
+    {
+        if (! $this->menu) {
+            return $default;
+        }
+
+        if (! empty($key)) {
+            return $this->menu->{$key} ?? $default;
+        }
+
+        return $this->menu;
     }
 
     /**
