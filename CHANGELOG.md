@@ -1,3 +1,9 @@
+## v1.0.6 (01-04-2020)
+
+### Bug fixes
+
+- Fix the call to Facade in the Composer autoload. :(
+
 ## v1.0.5 (01-04-2020)
 
 ### Enhancements

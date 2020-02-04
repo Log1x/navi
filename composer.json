@@ -33,7 +33,7 @@
         "Log1x\\Navi\\NaviServiceProvider"
       ],
       "aliases": {
-        "Navi": "Log1x\\Navi\\NaviFacade"
+        "Navi": "Log1x\\Navi\\Facades\\Navi"
       }
     }
   },
