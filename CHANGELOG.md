@@ -1,3 +1,30 @@
+## v1.0.5 (01-04-2020)
+
+### Enhancements
+
+- Move the menu builder methods into their own class.
+- Refactor the main `Navi` class to extend `Fluent`.
+- Add `isEmpty()` and `isNotEmpty()` helper methods to the main `Navi` class.
+- Refactor how menu items are filtered and mapped.
+- Set `empty` or `null` menu properties to `false`.
+- Add `get()` method allowing you to retrieve the properties of the current menu object. (#4)
+- Clean up documentation and add an example for `get()`.
+
+### Breaking Changes
+
+- Move Facade to Facades directory to avoid aliasing it.
+- Change object_id and db_id to objectId and dbId respectively to remain uniform with the existing camalCased keys
+
+## v1.0.4 (12-08-2019)
+
+### Enhancements
+
+- Add `db_id` and `object_id` (#8)
+
+### Bug fixes
+
+- Add missing `@param` and `@return` to docblocks
+
 ## v1.0.3 (09-26-2019)
 
 ### Enhancements
