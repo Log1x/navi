@@ -95,7 +95,11 @@ class Navigation extends Composer
      */
     public function navigation()
     {
-        return Navi::build();
+        if (Navi::build()->isEmpty()) {
+            return;
+        }
+        
+        return Navi::build()->toArray();
     }
 }
 ```
@@ -103,9 +107,9 @@ class Navigation extends Composer
 ```php
 # views/partials/navigation.blade.php
 
-@if ($navigation->isNotEmpty())
+@if ($navigation)
   <ul class="my-menu">
-    @foreach ($navigation->toArray() as $item)
+    @foreach ($navigation as $item)
       <li class="my-menu-item {{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }}">
         <a href="{{ $item->url }}">
           {{ $item->label }}
