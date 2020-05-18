@@ -29,6 +29,8 @@ $ composer require log1x/navi
 By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation menu.
 
 ```php
+<?php
+
 use Log1x\Navi\Navi;
 
 $navigation = (new Navi())->build('primary_navigation');
@@ -60,7 +62,7 @@ Here's an example of adding Navi to a Composer that targets your navigation part
 
 <?php
 
-namespace App\Composers;
+namespace App\View\Composers;
 
 use Roots\Acorn\View\Composer;
 use Log1x\Navi\Facades\Navi;
