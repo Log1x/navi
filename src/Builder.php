@@ -2,8 +2,6 @@
 
 namespace Log1x\Navi;
 
-use Illuminate\Support\Str;
-
 class Builder
 {
     /**
@@ -19,21 +17,21 @@ class Builder
      * @var array
      */
     protected $attributes = [
-        'active' => 'current',
+        'active'         => 'current',
         'activeAncestor' => 'current_item_ancestor',
-        'activeParent' => 'current_item_parent',
-        'classes' => 'classes',
-        'dbId' => 'db_id',
-        'description' => 'description',
-        'id' => 'ID',
-        'label' => 'title',
-        'objectId' => 'object_id',
-        'parent' => 'menu_item_parent',
-        'slug' => 'post_name',
-        'target' => 'target',
-        'title' => 'attr_title',
-        'url' => 'url',
-        'xfn' => 'xfn',
+        'activeParent'   => 'current_item_parent',
+        'classes'        => 'classes',
+        'dbId'           => 'db_id',
+        'description'    => 'description',
+        'id'             => 'ID',
+        'label'          => 'title',
+        'objectId'       => 'object_id',
+        'parent'         => 'menu_item_parent',
+        'slug'           => 'post_name',
+        'target'         => 'target',
+        'title'          => 'attr_title',
+        'url'            => 'url',
+        'xfn'            => 'xfn',
     ];
 
     /**
@@ -54,7 +52,8 @@ class Builder
     /**
      * Build a filtered array of objects containing the navigation menu items.
      *
-     * @param  array $menu
+     * @param array $menu
+     *
      * @return array
      */
     public function build($menu)
@@ -66,28 +65,29 @@ class Builder
         }
 
         return $this->tree(
-            $this->map($this->menu)->toArray()
+            $this->map($this->menu)
         );
     }
 
     /**
-     * Filter the menu item's into a prepared collection.
+     * Filter the menu items into a prepared collection.
      *
-     * @param  array $menu
-     * @return \Illuminate\Support\Collection
+     * @param array $menu
+     *
+     * @return array
      */
     protected function filter($menu = [])
     {
-        $menu = collect($menu)->filter(function ($item) {
+        $menu = array_filter($menu, function ($item) {
             return $item instanceof \WP_Post;
-        })->all();
+        });
 
         _wp_menu_item_classes_by_context($menu);
 
-        return collect($menu)->map(function ($item) {
-            $item->classes = collect($item->classes)->filter(function ($class) {
-                return ! Str::contains($class, $this->classes);
-            })->implode(' ');
+        return array_map(function ($item) {
+            $item->classes = join(' ', array_filter($item->classes, function ($class) {
+                return false === strpos($class, $this->classes);
+            }));
 
             foreach ($item as $key => $value) {
                 if (! $value) {
@@ -96,38 +96,42 @@ class Builder
             }
 
             return $item;
-        });
+        }, $menu);
     }
 
     /**
      * Map the menu item properties into a fluent object.
      *
-     * @param  array $menu
-     * @return \Illuminate\Support\Collection
+     * @param array $menu
+     *
+     * @return array
      */
     protected function map($menu = [])
     {
-        return collect($menu)->map(function ($item) {
-            return (object) collect($this->attributes)
-                ->flatMap(function ($value, $key) use ($item) {
-                    return [$key => $item->{$value}];
-                })->all();
-        });
+        return array_map(function ($item) {
+            $collect = [];
+            foreach ($this->attributes as $value => $key) {
+                $collect[$key] = $item->{$value};
+            }
+
+            return (object)$collect;
+        }, $menu);
     }
 
     /**
      * Build a multi-dimensional array containing children menu items.
      *
-     * @param  object $items
-     * @param  int    $parent
-     * @param  array  $branch
+     * @param array $items
+     * @param int   $parent
+     * @param array $branch
+     *
      * @return array
      */
     protected function tree($items, $parent = 0, $branch = [])
     {
         foreach ($items as $item) {
             if ($item->parent == $parent) {
-                $children = $this->tree($items, $item->id);
+                $children       = $this->tree($items, $item->id);
                 $item->children = ! empty($children) ? $children : [];
 
                 $branch[$item->id] = $item;
