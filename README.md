@@ -10,7 +10,6 @@ Navi is a simple package that allows you to return a WordPress menu as an iterab
 
 ## Requirements
 
-- [Sage](https://github.com/roots/sage) >= 9.0
 - [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3
 - [Composer](https://getcomposer.org/download/)
 
@@ -26,7 +25,7 @@ $ composer require log1x/navi
 
 ### Basic Usage
 
-By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation menu.
+Navi returns an object containing the menu object and an array of all the menu's items.
 
 ```php
 <?php
@@ -39,7 +38,7 @@ if ($navigation->isEmpty()) {
   return;
 }
 
-return $navigation->toArray();
+return $navigation->getItems();
 ```
 
 When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly. 
@@ -101,7 +100,7 @@ class Navigation extends Composer
             return;
         }
         
-        return Navi::build()->toArray();
+        return Navi::build()->getItems();
     }
 }
 ```
@@ -146,7 +145,7 @@ Here is an example using ACF with an optional custom label:
 
 ## Example Output
 
-When calling `build()`, Navi will parse the passed navigation menu and return a fluent container containing your menu items. To return an array of objects, simply call `->toArray()`.
+When calling `build()`, Navi will parse the passed navigation menu. To get an array of all the menu items, use `->getItems()`. 
 
 By default, `build()` calls `primary_navigation` which is the default menu theme location on Sage.
 
