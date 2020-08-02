@@ -2,7 +2,6 @@
 
 namespace Log1x\Navi;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 
 class Navi extends Fluent
@@ -23,7 +22,7 @@ class Navi extends Fluent
     public function build($menu = 'primary_navigation')
     {
         if (is_string($menu)) {
-            $menu = Arr::get(get_nav_menu_locations(), $menu, $menu);
+            $menu = get_nav_menu_locations()[$menu] ?? $menu;
         }
 
         $this->menu = wp_get_nav_menu_object($menu);
