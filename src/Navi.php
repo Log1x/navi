@@ -42,6 +42,16 @@ class Navi
     }
 
     /**
+     * Retained for historical reasons.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->getItems();
+    }
+
+    /**
      * Build and assign the navigation menu items.
      *
      * @param  int|string|WP_Term $menu
