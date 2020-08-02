@@ -2,9 +2,7 @@
 
 namespace Log1x\Navi;
 
-use Illuminate\Support\Fluent;
-
-class Navi extends Fluent
+class Navi
 {
     /**
      * The current menu object.
@@ -14,7 +12,37 @@ class Navi extends Fluent
     protected $menu;
 
     /**
-     * Build and assign the navigation menu items to the fluent instance.
+     * All of the menu items.
+     *
+     * @var array
+     */
+    protected $items = [];
+
+    /**
+     * Create a new Navi.
+     *
+     * @param  array|object  $attributes
+     * @return void
+     */
+    public function __construct($attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            $this->items[$key] = $value;
+        }
+    }
+
+    /**
+     * Get an array of the menu items on this instance.
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Build and assign the navigation menu items.
      *
      * @param  int|string|WP_Term $menu
      * @return $this
@@ -27,7 +55,7 @@ class Navi extends Fluent
 
         $this->menu = wp_get_nav_menu_object($menu);
 
-        $this->attributes = (new Builder())->build(
+        $this->items = (new Builder())->build(
             wp_get_nav_menu_items($this->menu)
         );
 
@@ -55,22 +83,22 @@ class Navi extends Fluent
     }
 
     /**
-     * Determine whether the fluent instance is empty.
+     * Determine whether the instance is empty.
      *
      * @return bool
      */
     public function isEmpty()
     {
-        return empty($this->attributes);
+        return empty($this->items);
     }
 
     /**
-     * Determine whether the fluent instance is not empty.
+     * Determine whether the instance is not empty.
      *
      * @return bool
      */
     public function isNotEmpty()
     {
-        return ! empty($this->attributes);
+        return ! empty($this->items);
     }
 }
