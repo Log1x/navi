@@ -60,7 +60,7 @@ class Builder
     {
         $this->menu = $this->filter($menu);
 
-        if ($this->menu->isEmpty()) {
+        if (empty($this->menu)) {
             return;
         }
 
@@ -110,7 +110,7 @@ class Builder
     {
         return array_map(function ($item) {
             $collect = [];
-            foreach ($this->attributes as $value => $key) {
+            foreach ($this->attributes as $key => $value) {
                 $collect[$key] = $item->{$value};
             }
 
