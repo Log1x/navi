@@ -42,7 +42,7 @@ if ($navigation->isEmpty()) {
 return $navigation->toArray();
 ```
 
-When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly. 
+When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly.
 
 Optionally, you may pass a `key` and `default` to call a specific object key with a fallback have it be null, empty, or not set.
 
@@ -53,7 +53,7 @@ $navigation->get('name', 'My menu title');
 
 ### Sage 10
 
-When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class. 
+When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class.
 
 Here's an example of adding Navi to a Composer that targets your navigation partial:
 
@@ -100,7 +100,7 @@ class Navigation extends Composer
         if (Navi::build()->isEmpty()) {
             return;
         }
-        
+
         return Navi::build()->toArray();
     }
 }
@@ -141,7 +141,7 @@ You may find that you need to access meta field values from pages that are in th
 Here is an example using ACF with an optional custom label:
 
 ```php
-{{ get_field('custom_nav_item_label', $item->objectId) ?: $item->label }}
+{{ get_field('custom_nav_item_label', $item->id) ?: $item->label }}
 ```
 
 ## Example Output
