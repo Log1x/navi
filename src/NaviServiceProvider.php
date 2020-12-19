@@ -13,7 +13,7 @@ class NaviServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('navi', function () {
+        $this->app->bind('navi', function () {
             return new Navi();
         });
     }
