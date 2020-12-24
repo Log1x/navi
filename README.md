@@ -144,6 +144,20 @@ Here is an example using ACF with an optional custom label:
 {{ get_field('custom_nav_item_label', $item->id) ?: $item->label }}
 ```
 
+### Menu item Meta Fields
+
+If you need meta fields from menu item you can access them with `get_field('your_field', $item->id)`
+
+Alternatively, use this function to add all meta fields:
+
+```
+    $navigation = array_map(function ($item) {
+      $item->my_field = get_field('my_field', $item->id);
+      return $item;
+    }, $navigation->toArray());
+
+```
+
 ## Example Output
 
 When calling `build()`, Navi will parse the passed navigation menu and return a fluent container containing your menu items. To return an array of objects, simply call `->toArray()`.
