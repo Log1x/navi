@@ -120,7 +120,7 @@ class Navigation extends Composer
         @if ($item->children)
           <ul class="my-child-menu">
             @foreach ($item->children as $child)
-              <li class="my-child-item {{ $item->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
+              <li class="my-child-item {{ $child->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
                 <a href="{{ $child->url }}">
                   {{ $child->label }}
                 </a>
