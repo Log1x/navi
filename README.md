@@ -58,14 +58,26 @@ $navigation->get()->name;
 $navigation->get('name', 'My menu title');
 ```
 
-### Custom Fields
+### Accessing Page Objects
 
-You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `objectId` attribute.
-
-Here is an example using ACF with an optional custom label:
+If your menu item is linked to a page object (e.g. not a custom link) – you can retrieve the ID of the page using the `objectId` attribute.
 
 ```php
-{{ get_field('custom_nav_item_label', $item->id) ?: $item->label }}
+{{ get_post_type($item->objectId) }}
+# or
+<?php echo get_post_type($item->objectId); ?>
+```
+
+### Accessing Custom Fields
+
+In a scenario where you need to access a custom field attached directly to your menu item – you can retrieve the ID of the menu item using the `id` attribute.
+
+Below we'll get a label override field attached to our menu [using ACF](https://www.advancedcustomfields.com/resources/adding-fields-menus/) – falling back to the default menu label if the field is empty.
+
+```php
+{{ get_field('custom_nav_label', $item->id) ?: $item->label }}
+# or
+<?php echo get_field('custom_nav_label', $item->id) ?: $item->label; ?>
 ```
 
 ## Example Output
