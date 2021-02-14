@@ -11,7 +11,6 @@ Navi is a developer-friendly alternative to the NavWalker. Easily build your Wor
 ## Requirements
 
 - [PHP](https://secure.php.net/manual/en/install.php) >= 7.0
-- [Composer](https://getcomposer.org/download/)
 
 ## Installation
 
