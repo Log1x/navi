@@ -2,7 +2,7 @@
   "name": "log1x/navi",
   "type": "package",
   "license": "MIT",
-  "description": "A simple alternative to WordPress' NavWalker",
+  "description": "A developer-friendly alternative to the WordPress NavWalker.",
   "authors": [
     {
       "name": "Brandon Nifong",
@@ -11,6 +11,7 @@
   ],
   "keywords": [
     "wordpress",
+    "wordpress-plugin",
     "navwalker"
   ],
   "support": {
