@@ -29,6 +29,8 @@ Download the [latest release](https://github.com/Log1x/navi/releases/latest) `.z
 
 ## Usage
 
+Check out the [**examples**](https://github.com/Log1x/navi/tree/master/examples) folder to see how to use Navi in your project.
+
 ### Basic Usage
 
 ```php
@@ -55,10 +57,6 @@ Optionally, you may pass a `key` and `default` to call a specific object key wit
 $navigation->get()->name;
 $navigation->get('name', 'My menu title');
 ```
-
-### Theme Examples
-
-Check out the [examples](https://github.com/Log1x/navi/tree/master/examples) folder to see how to use Navi in your project.
 
 ### Custom Fields
 

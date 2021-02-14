@@ -40,7 +40,7 @@
   },
   "scripts": {
     "lint": [
-      "phpcs --ignore=vendor --extensions=php --standard=PSR12 ."
+      "phpcs --ignore=vendor,examples --extensions=php --standard=PSR12 ."
     ]
   }
 }
