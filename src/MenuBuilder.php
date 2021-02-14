@@ -77,7 +77,7 @@ class MenuBuilder
     protected function filter($menu = [])
     {
         $menu = array_filter($menu, function ($item) {
-            return is_a($item, 'WP_Post');
+            return is_a($item, 'WP_Post') || is_a($item, 'WPML_LS_Menu_Item');
         });
 
         if (empty($menu)) {
