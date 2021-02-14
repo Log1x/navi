@@ -27,7 +27,7 @@ $navigation = new \Log1x\Navi\Navi()->build('primary-menu');
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
