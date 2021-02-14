@@ -15,17 +15,21 @@ Navi is a developer-friendly alternative to the NavWalker. Easily build your Wor
 
 ## Installation
 
+### Bedrock
+
 Install via Composer:
 
 ```bash
 $ composer require log1x/navi
 ```
 
+### Manual
+
+Download the [latest release](https://github.com/Log1x/navi/releases/latest) `.zip` and install into `wp-content/plugins`.
+
 ## Usage
 
 ### Basic Usage
-
-By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation menu.
 
 ```php
 <?php
@@ -41,7 +45,9 @@ if ($navigation->isEmpty()) {
 return $navigation->toArray();
 ```
 
-When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly.
+When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method.
+
+By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly.
 
 Optionally, you may pass a `key` and `default` to call a specific object key with a fallback have it be null, empty, or not set.
 
@@ -50,90 +56,11 @@ $navigation->get()->name;
 $navigation->get('name', 'My menu title');
 ```
 
-### Sage 10
+### Theme Examples
 
-When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class.
+Check out the [examples](https://github.com/Log1x/navi/tree/master/examples) folder to see how to use Navi in your project.
 
-Here's an example of adding Navi to a Composer that targets your navigation partial:
-
-```php
-# Composers/Navigation.php
-
-<?php
-
-namespace App\View\Composers;
-
-use Roots\Acorn\View\Composer;
-use Log1x\Navi\Facades\Navi;
-
-class Navigation extends Composer
-{
-    /**
-     * List of views served by this composer.
-     *
-     * @var array
-     */
-    protected static $views = [
-        'partials.navigation',
-    ];
-
-    /**
-     * Data to be passed to view before rendering.
-     *
-     * @return array
-     */
-    public function with()
-    {
-        return [
-            'navigation' => $this->navigation(),
-        ];
-    }
-
-    /**
-     * Returns the primary navigation.
-     *
-     * @return array
-     */
-    public function navigation()
-    {
-        if (Navi::build()->isEmpty()) {
-            return;
-        }
-
-        return Navi::build()->toArray();
-    }
-}
-```
-
-```php
-# views/partials/navigation.blade.php
-
-@if ($navigation)
-  <ul class="my-menu">
-    @foreach ($navigation as $item)
-      <li class="my-menu-item {{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }}">
-        <a href="{{ $item->url }}">
-          {{ $item->label }}
-        </a>
-
-        @if ($item->children)
-          <ul class="my-child-menu">
-            @foreach ($item->children as $child)
-              <li class="my-child-item {{ $child->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
-                <a href="{{ $child->url }}">
-                  {{ $child->label }}
-                </a>
-              </li>
-            @endforeach
-          </ul>
-        @endif
-      </li>
-    @endforeach
-  </ul>
-@endif
-```
-
-### Page Meta Fields
+### Custom Fields
 
 You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `objectId` attribute.
 
@@ -215,7 +142,7 @@ That being said, depending on how deep your menu is– you can ultimately just k
 
 ## Bug Reports
 
-If you discover a bug in Navi, please [open an issue](https://github.com/log1x/navi/issues).
+If you discover a bug in Navi, please [open an issue](issues).
 
 ## Contributing
 
