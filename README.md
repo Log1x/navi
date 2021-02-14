@@ -1,20 +1,20 @@
 # Navi
 
-![Latest Stable Version](https://img.shields.io/packagist/v/log1x/navi?style=flat-square)
-![Build Status](https://img.shields.io/circleci/build/github/Log1x/navi?style=flat-square)
-![Total Downloads](https://img.shields.io/packagist/dt/log1x/navi?style=flat-square)
+![Latest Stable Version](https://img.shields.io/packagist/v/log1x/navi.svg?style=flat-square)
+![Total Downloads](https://img.shields.io/packagist/dt/log1x/navi.svg?style=flat-square)
+![Build Status](https://img.shields.io/github/workflow/status/log1x/navi/compatibility?style=flat-square)
 
-Hate the WordPress NavWalker? Me too.
+Hate the WordPress NavWalker? **Me too**.
 
-Navi is a simple package that allows you to return a WordPress menu as an iterable object containing the necessities to build out your menu how you want.
+Navi is a developer-friendly alternative to the NavWalker. Easily build your WordPress menus using an iterable object inside of a template/view.
 
 ## Requirements
 
-- [Sage](https://github.com/roots/sage) >= 9.0
-- [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3
-- [Composer](https://getcomposer.org/download/)
+- [PHP](https://secure.php.net/manual/en/install.php) >= 7.0
 
 ## Installation
+
+### Bedrock (or Sage)
 
 Install via Composer:
 
@@ -22,11 +22,15 @@ Install via Composer:
 $ composer require log1x/navi
 ```
 
+### Manual
+
+Download the [latest release](https://github.com/Log1x/navi/releases/latest) `.zip` and install into `wp-content/plugins`.
+
 ## Usage
 
-### Basic Usage
+Check out the [**examples**](examples) folder to see how to use Navi in your project.
 
-By default, Navi returns a [fluent container](https://laravel.com/api/master/Illuminate/Support/Fluent.html) containing your navigation menu.
+### Basic Usage
 
 ```php
 <?php
@@ -42,7 +46,9 @@ if ($navigation->isEmpty()) {
 return $navigation->toArray();
 ```
 
-When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method. By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly.
+When building the navigation menu, Navi retains the menu object and makes it available using the `get()` method.
+
+By default, `get()` returns the raw[`wp_get_nav_menu_object()`](https://codex.wordpress.org/Function_Reference/wp_get_nav_menu_object) allowing you to access it directly.
 
 Optionally, you may pass a `key` and `default` to call a specific object key with a fallback have it be null, empty, or not set.
 
@@ -51,97 +57,30 @@ $navigation->get()->name;
 $navigation->get('name', 'My menu title');
 ```
 
-### Sage 10
+### Accessing Page Objects
 
-When using Sage 10, you can take advantage of Navi's Service Provider and Facade to avoid needing to reinitialize the Navi class.
-
-Here's an example of adding Navi to a Composer that targets your navigation partial:
+If your menu item is linked to a page object (e.g. not a custom link) – you can retrieve the ID of the page using the `objectId` attribute.
 
 ```php
-# Composers/Navigation.php
+# Blade
+{{ get_post_type($item->objectId) }}
 
-<?php
-
-namespace App\View\Composers;
-
-use Roots\Acorn\View\Composer;
-use Log1x\Navi\Facades\Navi;
-
-class Navigation extends Composer
-{
-    /**
-     * List of views served by this composer.
-     *
-     * @var array
-     */
-    protected static $views = [
-        'partials.navigation',
-    ];
-
-    /**
-     * Data to be passed to view before rendering.
-     *
-     * @return array
-     */
-    public function with()
-    {
-        return [
-            'navigation' => $this->navigation(),
-        ];
-    }
-
-    /**
-     * Returns the primary navigation.
-     *
-     * @return array
-     */
-    public function navigation()
-    {
-        if (Navi::build()->isEmpty()) {
-            return;
-        }
-
-        return Navi::build()->toArray();
-    }
-}
+# PHP
+<?php echo get_post_type($item->objectId); ?>
 ```
 
-```php
-# views/partials/navigation.blade.php
+### Accessing Custom Fields
 
-@if ($navigation)
-  <ul class="my-menu">
-    @foreach ($navigation as $item)
-      <li class="my-menu-item {{ $item->classes ?? '' }} {{ $item->active ? 'active' : '' }}">
-        <a href="{{ $item->url }}">
-          {{ $item->label }}
-        </a>
+In a scenario where you need to access a custom field attached directly to your menu item – you can retrieve the ID of the menu item using the `id` attribute.
 
-        @if ($item->children)
-          <ul class="my-child-menu">
-            @foreach ($item->children as $child)
-              <li class="my-child-item {{ $child->classes ?? '' }} {{ $child->active ? 'active' : '' }}">
-                <a href="{{ $child->url }}">
-                  {{ $child->label }}
-                </a>
-              </li>
-            @endforeach
-          </ul>
-        @endif
-      </li>
-    @endforeach
-  </ul>
-@endif
-```
-
-### Page Meta Fields
-
-You may find that you need to access meta field values from pages that are in the menu. For this, you can make use of the `objectId` attribute.
-
-Here is an example using ACF with an optional custom label:
+Below we'll get a label override field attached to our menu [using ACF](https://www.advancedcustomfields.com/resources/adding-fields-menus/) – falling back to the default menu label if the field is empty.
 
 ```php
-{{ get_field('custom_nav_item_label', $item->id) ?: $item->label }}
+# Blade
+{{ get_field('custom_nav_label', $item->id) ?: $item->label }}
+
+# PHP
+<?php echo get_field('custom_nav_label', $item->id) ?: $item->label; ?>
 ```
 
 ## Example Output
@@ -216,7 +155,7 @@ That being said, depending on how deep your menu is– you can ultimately just k
 
 ## Bug Reports
 
-If you discover a bug in Navi, please [open an issue](https://github.com/log1x/navi/issues).
+If you discover a bug in Navi, please [open an issue](https://github.com/Log1x/navi/issues).
 
 ## Contributing
 
@@ -224,4 +163,4 @@ Contributing whether it be through PRs, reporting an issue, or suggesting an ide
 
 ## License
 
-Navi is provided under the [MIT License](https://github.com/log1x/navi/blob/master/LICENSE.md).
+Navi is provided under the [MIT License](LICENSE.md).
