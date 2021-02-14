@@ -19,4 +19,4 @@ add_filter('after_setup_theme', function () {
             Log1x\Navi\Providers\NaviServiceProvider::class
         );
     }
-});
+}, 20);
