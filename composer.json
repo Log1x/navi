@@ -30,7 +30,7 @@
   "extra": {
     "acorn": {
       "providers": [
-        "Log1x\\Navi\\NaviServiceProvider"
+        "Log1x\\Navi\\Providers\\NaviServiceProvider"
       ],
       "aliases": {
         "Navi": "Log1x\\Navi\\Facades\\Navi"

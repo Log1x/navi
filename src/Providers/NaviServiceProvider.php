@@ -1,7 +1,8 @@
 <?php
 
-namespace Log1x\Navi;
+namespace Log1x\Navi\Providers;
 
+use Log1x\Navi\Navi;
 use Roots\Acorn\ServiceProvider;
 
 class NaviServiceProvider extends ServiceProvider

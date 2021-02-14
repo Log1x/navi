@@ -2,9 +2,7 @@
 
 namespace Log1x\Navi;
 
-use Illuminate\Support\Str;
-
-class Builder
+class MenuBuilder
 {
     /**
      * The current menu.
@@ -61,12 +59,12 @@ class Builder
     {
         $this->menu = $this->filter($menu);
 
-        if ($this->menu->isEmpty()) {
+        if (empty($this->menu)) {
             return;
         }
 
         return $this->tree(
-            $this->map($this->menu)->toArray()
+            $this->map($this->menu)
         );
     }
 
@@ -78,25 +76,32 @@ class Builder
      */
     protected function filter($menu = [])
     {
-        $menu = collect($menu)->filter(function ($item) {
-            return $item instanceof \WP_Post;
-        })->all();
+        $menu = array_filter($menu, function ($item) {
+            return is_a($item, 'WP_Post');
+        });
+
+        if (empty($menu)) {
+            return;
+        }
 
         _wp_menu_item_classes_by_context($menu);
 
-        return collect($menu)->map(function ($item) {
-            $item->classes = collect($item->classes)->filter(function ($class) {
-                return ! Str::contains($class, $this->classes);
-            })->implode(' ');
+        return array_map(function ($item) {
+            $item->classes = array_filter($item->classes, function ($class) {
+                return array_key_exists(
+                    $class,
+                    array_flip($this->classes)
+                );
+            });
 
             foreach ($item as $key => $value) {
-                if (! $value) {
+                if (empty($value)) {
                     $item->{$key} = false;
                 }
             }
 
             return $item;
-        });
+        }, $menu);
     }
 
     /**
@@ -107,12 +112,15 @@ class Builder
      */
     protected function map($menu = [])
     {
-        return collect($menu)->map(function ($item) {
-            return (object) collect($this->attributes)
-                ->flatMap(function ($value, $key) use ($item) {
-                    return [$key => $item->{$value}];
-                })->all();
-        });
+        return array_map(function ($item) {
+            $result = [];
+
+            foreach ($this->attributes as $key => $value) {
+                $result[$key] = $item->{$value};
+            }
+
+            return (object) $result;
+        }, $menu);
     }
 
     /**
