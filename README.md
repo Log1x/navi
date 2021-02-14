@@ -29,7 +29,7 @@ Download the [latest release](https://github.com/Log1x/navi/releases/latest) `.z
 
 ## Usage
 
-Check out the [**examples**](https://github.com/Log1x/navi/tree/master/examples) folder to see how to use Navi in your project.
+Check out the [**examples**](examples) folder to see how to use Navi in your project.
 
 ### Basic Usage
 
@@ -140,7 +140,7 @@ That being said, depending on how deep your menu is– you can ultimately just k
 
 ## Bug Reports
 
-If you discover a bug in Navi, please [open an issue](issues).
+If you discover a bug in Navi, please [open an issue](https://github.com/Log1x/navi/issues).
 
 ## Contributing
 
