@@ -1,17 +1,16 @@
 # Navi
 
-![Latest Stable Version](https://img.shields.io/packagist/v/log1x/navi?style=flat-square)
-![Build Status](https://img.shields.io/circleci/build/github/Log1x/navi?style=flat-square)
-![Total Downloads](https://img.shields.io/packagist/dt/log1x/navi?style=flat-square)
+![Latest Stable Version](https://img.shields.io/packagist/v/log1x/navi.svg?style=flat-square)
+![Total Downloads](https://img.shields.io/packagist/dt/log1x/navi.svg?style=flat-square)
+![Build Status](https://img.shields.io/github/workflow/status/log1x/navi/compatibility?style=flat-square)
 
-Hate the WordPress NavWalker? Me too.
+Hate the WordPress NavWalker? **Me too**.
 
-Navi is a simple package that allows you to return a WordPress menu as an iterable object containing the necessities to build out your menu how you want.
+Navi is a developer-friendly alternative to the NavWalker. Easily build your WordPress menus using an iterable object inside of a template/view.
 
 ## Requirements
 
-- [Sage](https://github.com/roots/sage) >= 9.0
-- [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3
+- [PHP](https://secure.php.net/manual/en/install.php) >= 7.0
 - [Composer](https://getcomposer.org/download/)
 
 ## Installation
@@ -224,4 +223,4 @@ Contributing whether it be through PRs, reporting an issue, or suggesting an ide
 
 ## License
 
-Navi is provided under the [MIT License](https://github.com/log1x/navi/blob/master/LICENSE.md).
+Navi is provided under the [MIT License](LICENSE.md).
