@@ -62,8 +62,10 @@ $navigation->get('name', 'My menu title');
 If your menu item is linked to a page object (e.g. not a custom link) – you can retrieve the ID of the page using the `objectId` attribute.
 
 ```php
+# Blade
 {{ get_post_type($item->objectId) }}
-# or
+
+# PHP
 <?php echo get_post_type($item->objectId); ?>
 ```
 
@@ -74,8 +76,10 @@ In a scenario where you need to access a custom field attached directly to your 
 Below we'll get a label override field attached to our menu [using ACF](https://www.advancedcustomfields.com/resources/adding-fields-menus/) – falling back to the default menu label if the field is empty.
 
 ```php
+# Blade
 {{ get_field('custom_nav_label', $item->id) ?: $item->label }}
-# or
+
+# PHP
 <?php echo get_field('custom_nav_label', $item->id) ?: $item->label; ?>
 ```
 
