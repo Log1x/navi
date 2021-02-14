@@ -15,7 +15,7 @@ Navi is a developer-friendly alternative to the NavWalker. Easily build your Wor
 
 ## Installation
 
-### Bedrock
+### Bedrock (or Sage)
 
 Install via Composer:
 
