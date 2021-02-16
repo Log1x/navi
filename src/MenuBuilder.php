@@ -87,12 +87,14 @@ class MenuBuilder
         _wp_menu_item_classes_by_context($menu);
 
         return array_map(function ($item) {
-            $item->classes = array_filter($item->classes, function ($class) {
+            $classes = array_filter($item->classes, function ($class) {
                 return array_key_exists(
                     $class,
                     array_flip($this->classes)
                 );
             });
+
+            $item->classes = is_array($classes) ? implode(' ', $classes) : $classes;
 
             foreach ($item as $key => $value) {
                 if (empty($value)) {
