@@ -39,15 +39,14 @@ class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     /**
      * Build and assign the navigation menu items to the Navi instance.
      *
-     * @param  int|string|WP_Term $menu
+     * @param  int|string|\WP_Term $menu
      * @return $this
      */
     public function build($menu = 'primary_navigation')
     {
         if (is_string($menu)) {
-            $menu = array_key_exists($menu, get_nav_menu_locations()) ?
-                get_nav_menu_locations()[$menu] :
-                $menu;
+            $locations = get_nav_menu_locations();
+            $menu = array_key_exists($menu, $locations) ? $locations[$menu] : $menu;
         }
 
         $this->menu = wp_get_nav_menu_object($menu);
@@ -96,7 +95,7 @@ class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function isNotEmpty()
     {
-        return ! empty($this->items);
+        return ! $this->isEmpty();
     }
 
     /**
