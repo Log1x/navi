@@ -55,9 +55,9 @@ class MenuBuilder
      * @param  array $menu
      * @return array
      */
-    public function build($menu)
+    public function build($menu = [])
     {
-        $this->menu = $this->filter($menu);
+        $this->menu = $this->filter((array) $menu);
 
         if (empty($this->menu)) {
             return;
