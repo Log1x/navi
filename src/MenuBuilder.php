@@ -87,14 +87,8 @@ class MenuBuilder
         _wp_menu_item_classes_by_context($menu);
 
         return array_map(function ($item) {
-            $classes = array_filter($item->classes, function ($class) {
-                return array_key_exists(
-                    $class,
-                    array_flip($this->classes)
-                );
-            });
 
-            $item->classes = is_array($classes) ? implode(' ', $classes) : $classes;
+            $item->classes = is_array($item->classes) ? implode(' ', $item->classes) : $item->classes;
 
             foreach ($item as $key => $value) {
                 if (empty($value)) {
@@ -138,7 +132,7 @@ class MenuBuilder
         foreach ($items as $item) {
             if ($item->parent == $parent) {
                 $children = $this->tree($items, $item->id);
-                $item->children = ! empty($children) ? $children : [];
+                $item->children = !empty($children) ? $children : [];
 
                 $branch[$item->id] = $item;
                 unset($item);
