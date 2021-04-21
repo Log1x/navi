@@ -35,15 +35,19 @@ class MenuBuilder
     ];
 
     /**
-     * Blacklisted Classes
+     * Excluded Classes
      *
      * @var array
      */
-    protected $classes = [
+    protected $excluded_classes = [
         'current-menu',
         'current_page',
         'sub-menu',
-        'menu-item',
+        // 'menu-item',
+        'menu-item-type-post_type',
+        'menu-item-object-page',
+        'menu-item-type-custom',
+        'menu-item-object-custom',
         'menu_item',
         'page-item',
         'page_item',
@@ -88,10 +92,7 @@ class MenuBuilder
 
         return array_map(function ($item) {
             $classes = array_filter($item->classes, function ($class) {
-                return array_key_exists(
-                    $class,
-                    array_flip($this->classes)
-                );
+                return !in_array($class, $this->excluded_classes);
             });
 
             $item->classes = is_array($classes) ? implode(' ', $classes) : $classes;
