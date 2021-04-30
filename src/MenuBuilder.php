@@ -12,7 +12,7 @@ class MenuBuilder
     protected $menu = [];
 
     /**
-     * Attributes Map
+     * The attributes map.
      *
      * @var array
      */
@@ -35,15 +35,15 @@ class MenuBuilder
     ];
 
     /**
-     * Excluded Classes
+     * The disallowed classes.
      *
      * @var array
      */
-    protected $excluded_classes = [
+    protected $disallowedClasses = [
         'current-menu',
         'current_page',
         'sub-menu',
-        // 'menu-item',
+        'menu-item',
         'menu-item-type-post_type',
         'menu-item-object-page',
         'menu-item-type-custom',
@@ -92,7 +92,7 @@ class MenuBuilder
 
         return array_map(function ($item) {
             $classes = array_filter($item->classes, function ($class) {
-                return !in_array($class, $this->excluded_classes);
+                return ! in_array($class, $this->disallowedClasses);
             });
 
             $item->classes = is_array($classes) ? implode(' ', $classes) : $classes;
