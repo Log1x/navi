@@ -137,7 +137,10 @@ class MenuBuilder
     protected function tree($items, $parent = 0, $branch = [])
     {
         foreach ($items as $item) {
-            if ($item->parent == $parent) {
+            if (
+                $item->parent === false && $parent === 0 ||
+                strcmp($item->parent, $parent) === 0
+            ) {
                 $children = $this->tree($items, $item->id);
                 $item->children = ! empty($children) ? $children : [];
 
