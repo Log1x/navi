@@ -8,7 +8,7 @@
 $navigation = new \Log1x\Navi\Navi()->build('primary-menu');
 ?>
 
-<?php if ( $navigation->isNotEmpty() ) ) : ?>
+<?php if ( $navigation->isNotEmpty() ) : ?>
     <nav id="site-navigation" class="main-navigation">
         <ul id="primary-menu">
             <?php foreach ( $navigation->toArray() as $item ) : ?>
