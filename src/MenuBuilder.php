@@ -65,7 +65,7 @@ class MenuBuilder
         $this->menu = $this->filter((array) $menu);
 
         if (empty($this->menu)) {
-            return;
+            return [];
         }
 
         $this->menu = array_combine(
