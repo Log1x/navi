@@ -32,6 +32,7 @@ class MenuBuilder
         'title' => 'attr_title',
         'url' => 'url',
         'xfn' => 'xfn',
+        'order' => 'menu_order',
     ];
 
     /**
@@ -66,6 +67,11 @@ class MenuBuilder
         if (empty($this->menu)) {
             return;
         }
+
+        $this->menu = array_combine(
+            array_column($this->menu, 'ID'),
+            $this->menu
+        );
 
         return $this->tree(
             $this->map($this->menu)
@@ -122,6 +128,10 @@ class MenuBuilder
                 $result[$key] = $item->{$value};
             }
 
+            $result['parentObjectId'] = ! empty($result['parent']) && ! empty($this->menu[$result['parent']]) ?
+                $this->menu[$result['parent']]->object_id :
+                false;
+
             return (object) $result;
         }, $menu);
     }
@@ -141,7 +151,7 @@ class MenuBuilder
                 $children = $this->tree($items, $item->id);
                 $item->children = ! empty($children) ? $children : [];
 
-                $branch[$item->id] = $item;
+                $branch[$item->order] = $item;
                 unset($item);
             }
         };
