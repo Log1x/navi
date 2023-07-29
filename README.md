@@ -95,7 +95,6 @@ array [
     +"active": true
     +"activeAncestor": false
     +"activeParent": false
-    +"children": false
     +"classes": "example"
     +"dbId": 5
     +"description": false
@@ -108,33 +107,14 @@ array [
     +"title": false
     +"url": "https://sage.test/"
     +"xfn": false
+    +"order": 1
+    +"parentObjectId": false
+    +"children": false
   }
   6 => {
     +"active": false
     +"activeAncestor": false
     +"activeParent": false
-    +"children": array [
-      7 => {
-        +"active": false
-        +"activeAncestor": false
-        +"activeParent": false
-        +"children": array [
-          ...
-        ]
-        +"classes": false
-        +"dbId": 7
-        +"description": false
-        +"id": 7
-        +"label": "Example"
-        +"objectId": "101"
-        +"parent": 6
-        +"slug": "example"
-        +"target": false
-        +"title": false
-        +"url": "#"
-        +"xfn": false
-      }
-    ]
     +"classes": false
     +"dbId": 6
     +"description": false
@@ -147,6 +127,32 @@ array [
     +"title": false
     +"url": "https://sage.test/sample-page/"
     +"xfn": false
+    +"order": 2
+    +"parentObjectId": false
+    +"children": array [
+      7 => {
+        +"active": false
+        +"activeAncestor": false
+        +"activeParent": false
+        +"classes": false
+        +"dbId": 7
+        +"description": false
+        +"id": 7
+        +"label": "Example"
+        +"objectId": "101"
+        +"parent": 6
+        +"slug": "example"
+        +"target": false
+        +"title": false
+        +"url": "#"
+        +"xfn": false
+        +"order": 3
+        +"parentObjectId": 100
+        +"children": array [
+          ...
+        ]
+      }
+    ]
   }
 ]
 ```
