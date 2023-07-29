@@ -128,8 +128,8 @@ class MenuBuilder
                 $result[$key] = $item->{$value};
             }
 
-            $result['parentObjectId'] = ! empty($result['parent']) && ! empty($parent = $this->menu[$result['parent']]) ?
-                $parent->object_id :
+            $result['parentObjectId'] = ! empty($result['parent']) && ! empty($this->menu[$result['parent']]) ?
+                $this->menu[$result['parent']]->object_id :
                 false;
 
             return (object) $result;
