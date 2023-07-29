@@ -46,7 +46,14 @@ class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         if (is_string($menu)) {
             $locations = get_nav_menu_locations();
-            $menu = array_key_exists($menu, $locations) ? $locations[$menu] : $menu;
+
+            if (array_key_exists($menu, $locations)) {
+                $menu = $locations[$menu];
+
+                if (has_filter('wpml_object_id')) {
+                    $menu = apply_filters('wpml_object_id', $menu, 'nav_menu');
+                }
+            }
         }
 
         $this->menu = wp_get_nav_menu_object($menu);
