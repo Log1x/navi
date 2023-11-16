@@ -3,7 +3,7 @@
 namespace Log1x\Navi\Providers;
 
 use Log1x\Navi\Navi;
-use Roots\Acorn\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class NaviServiceProvider extends ServiceProvider
 {
