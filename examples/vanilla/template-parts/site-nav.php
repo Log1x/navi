@@ -5,7 +5,7 @@
  * @link https://github.com/log1x/navi
  */
 
-$navigation = new \Log1x\Navi\Navi()->build('primary-menu');
+$navigation = \Log1x\Navi\Navi::make()->build('primary-menu');
 ?>
 
 <?php if ( $navigation->isNotEmpty() ) : ?>
