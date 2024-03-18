@@ -100,11 +100,13 @@ array [
     +"description": false
     +"id": 5
     +"label": "Home"
+    +"object": "page"
     +"objectId": "99"
     +"parent": false
     +"slug": "home"
     +"target": "_blank"
     +"title": false
+    +"type": "post_type"
     +"url": "https://sage.test/"
     +"xfn": false
     +"order": 1
@@ -120,11 +122,13 @@ array [
     +"description": false
     +"id": 6
     +"label": "Sample Page"
+    +"object": "page"
     +"objectId": "100"
     +"parent": false
     +"slug": "sample-page"
     +"target": false
     +"title": false
+    +"type": "post_type"
     +"url": "https://sage.test/sample-page/"
     +"xfn": false
     +"order": 2
@@ -139,11 +143,13 @@ array [
         +"description": false
         +"id": 7
         +"label": "Example"
+        +"object": "custom"
         +"objectId": "101"
         +"parent": 6
         +"slug": "example"
         +"target": false
         +"title": false
+        +"type": "custom"
         +"url": "#"
         +"xfn": false
         +"order": 3
