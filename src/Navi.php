@@ -2,34 +2,22 @@
 
 namespace Log1x\Navi;
 
-use ArrayAccess;
-use JsonSerializable;
-use Log1x\Navi\Contracts\Arrayable;
-use Log1x\Navi\Contracts\Jsonable;
-
-class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
+class Navi
 {
     /**
      * The menu object.
-     *
-     * @var mixed
      */
-    protected $menu;
+    protected mixed $menu;
 
     /**
      * The menu items.
-     *
-     * @var array
      */
-    protected $items = [];
+    protected array $items = [];
 
     /**
      * Create a new Navi instance.
-     *
-     * @param  array|object  $items
-     * @return void
      */
-    public function __construct($items = [])
+    public function __construct(array $items = [])
     {
         foreach ($items as $key => $value) {
             $this->items[$key] = $value;
@@ -37,12 +25,17 @@ class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     }
 
     /**
-     * Build and assign the navigation menu items to the Navi instance.
-     *
-     * @param  int|string|\WP_Term $menu
-     * @return $this
+     * Make a new Navi instance.
      */
-    public function build($menu = 'primary_navigation')
+    public static function make(array $items = []): self
+    {
+        return new static($items);
+    }
+
+    /**
+     * Build the navigation menu items.
+     */
+    public function build(string $menu = 'primary_navigation'): self
     {
         if (is_string($menu)) {
             $locations = get_nav_menu_locations();
@@ -58,21 +51,18 @@ class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 
         $this->menu = wp_get_nav_menu_object($menu);
 
-        $this->items = (new MenuBuilder())->build(
-            wp_get_nav_menu_items($this->menu)
-        );
+        $items = wp_get_nav_menu_items($this->menu);
+
+        $this->items = MenuBuilder::make()->build($items ?? []);
 
         return $this;
     }
 
     /**
-     * Returns the current navigation menu object.
-     *
-     * @param  string $key
-     * @param  mixed  $default
-     * @return mixed
+     * Retrieve the specified key from the WordPress menu object.
+     * If no key is specified, the entire menu object will be returned.
      */
-    public function get($key = null, $default = null)
+    public function get(?string $key = null, mixed $default = null): mixed
     {
         if (! $this->menu) {
             return $default;
@@ -86,172 +76,50 @@ class Navi implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     }
 
     /**
-     * Determine whether the Navi instance is empty.
-     *
-     * @return bool
+     * Determine if Navi is empty.
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
-        return empty($this->items);
+        return empty($this->all());
     }
 
     /**
-     * Determine whether the Navi instance is not empty.
-     *
-     * @return bool
+     * Determine if Navi is not empty.
      */
-    public function isNotEmpty()
+    public function isNotEmpty(): bool
     {
         return ! $this->isEmpty();
     }
 
     /**
-     * Get the items from the Navi instance.
-     *
-     * @return array
+     * Retrieve the Navi items.
      */
-    public function getItems()
+    public function all(): array
     {
         return $this->items;
     }
 
     /**
-     * Convert the Navi instance to an array.
-     *
-     * @return array
+     * Retrieve the Navi items as an array.
      */
-    public function toArray()
+    public function toArray(): array
     {
-        return $this->items;
+        return $this->all();
     }
 
     /**
-     * Convert the object into something JSON serializable.
-     *
-     * @return array
+     * Retrieve the Navi items as JSON.
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function toJson(int $options = 0): string
     {
-        return $this->toArray();
+        return json_encode($this->toArray(), $options);
     }
 
     /**
-     * Convert the Navi instance to JSON.
-     *
-     * @param  int  $options
-     * @return string
+     * Dynamically retrieve a Navi item.
      */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->jsonSerialize(), $options);
-    }
-
-    /**
-     * Determine if the given offset exists.
-     *
-     * @param  string  $offset
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
-    {
-        return isset($this->attributes[$offset]);
-    }
-
-    /**
-     * Get the value for a given offset.
-     *
-     * @param  string  $offset
-     * @return mixed
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
-    }
-
-    /**
-     * Set the value at the given offset.
-     *
-     * @param  string  $offset
-     * @param  mixed  $value
-     * @return void
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
-    {
-        $this->attributes[$offset] = $value;
-    }
-
-    /**
-     * Unset the value at the given offset.
-     *
-     * @param  string  $offset
-     * @return void
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
-    {
-        unset($this->attributes[$offset]);
-    }
-
-    /**
-     * Handle dynamic calls to the Navi instance to set items.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     * @return $this
-     */
-    public function __call($method, $parameters)
-    {
-        $this->items[$method] = count($parameters) > 0 ? $parameters[0] : true;
-
-        return $this;
-    }
-
-    /**
-     * Dynamically retrieve the value of an attribute.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         return $this->get($key);
-    }
-
-    /**
-     * Dynamically set the value of an attribute.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return void
-     */
-    public function __set($key, $value)
-    {
-        $this->offsetSet($key, $value);
-    }
-
-    /**
-     * Dynamically check if an attribute is set.
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        return $this->offsetExists($key);
-    }
-
-    /**
-     * Dynamically unset an attribute.
-     *
-     * @param  string  $key
-     * @return void
-     */
-    public function __unset($key)
-    {
-        $this->offsetUnset($key);
     }
 }
