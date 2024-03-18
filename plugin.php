@@ -9,7 +9,7 @@
  * Author URI:  https://github.com/log1x
  */
 
-if (! file_exists($composer = __DIR__.'/vendor/autoload.php')) {
+if (! file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
     return;
 }
 
