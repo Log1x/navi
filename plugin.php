@@ -4,12 +4,12 @@
  * Plugin Name: Navi
  * Plugin URI:  https://github.com/log1x/navi
  * Description: A developer-friendly alternative to the WordPress NavWalker.
- * Version:     2.0.4
+ * Version:     3.0.0
  * Author:      Brandon Nifong
  * Author URI:  https://github.com/log1x
  */
 
-if (! file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
+if (! file_exists($composer = __DIR__.'/vendor/autoload.php')) {
     return;
 }
 

@@ -2,8 +2,8 @@
 
 namespace Log1x\Navi\Providers;
 
-use Log1x\Navi\Navi;
 use Illuminate\Support\ServiceProvider;
+use Log1x\Navi\Navi;
 
 class NaviServiceProvider extends ServiceProvider
 {
@@ -14,8 +14,6 @@ class NaviServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('navi', function () {
-            return new Navi();
-        });
+        $this->app->bind('navi', fn () => Navi::make());
     }
 }

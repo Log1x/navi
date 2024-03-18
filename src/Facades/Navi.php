@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool isNotEmpty()
  *
  * @see \Log1x\Navi\Navi
- * @see \Illuminate\Support\Fluent
  */
 class Navi extends Facade
 {
