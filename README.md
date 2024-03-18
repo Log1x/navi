@@ -2,7 +2,7 @@
 
 ![Latest Stable Version](https://img.shields.io/packagist/v/log1x/navi.svg?style=flat-square)
 ![Total Downloads](https://img.shields.io/packagist/dt/log1x/navi.svg?style=flat-square)
-![Build Status](https://img.shields.io/github/actions/workflow/status/log1x/navi/compatibility.yml?branch=master&style=flat-square)
+![Build Status](https://img.shields.io/github/actions/workflow/status/log1x/navi/main.yml?branch=master&style=flat-square)
 
 Hate the WordPress NavWalker? **Me too**.
 
@@ -10,7 +10,7 @@ Navi is a developer-friendly alternative to the NavWalker. Easily build your Wor
 
 ## Requirements
 
-- [PHP](https://secure.php.net/manual/en/install.php) >= 7.0
+- [PHP](https://secure.php.net/manual/en/install.php) >= 8.0
 
 ## Installation
 
@@ -37,7 +37,7 @@ Check out the [**examples**](examples) folder to see how to use Navi in your pro
 
 use Log1x\Navi\Navi;
 
-$navigation = (new Navi())->build('primary_navigation');
+$navigation = Navi::make()->build('primary_navigation');
 
 if ($navigation->isEmpty()) {
   return;
