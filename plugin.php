@@ -9,20 +9,20 @@
  * Author URI:  https://github.com/log1x
  */
 
-add_filter('after_setup_theme', function () {
-    if (file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
-        require_once $composer;
-    }
+if (! file_exists($composer = __DIR__.'/vendor/autoload.php')) {
+    return;
+}
 
+require_once $composer;
+
+add_filter('after_setup_theme', function () {
     if (! function_exists('Roots\bootloader')) {
         return;
     }
-    
+
     $app = Roots\bootloader()->getApplication();
-    
+
     $app->register(Log1x\Navi\Providers\NaviServiceProvider::class);
 
-    Roots\Acorn\AliasLoader::getInstance([
-        'navi' => Log1x\Navi\Facades\Navi::class
-    ])->register();
+    $app->alias('navi', Log1x\Navi\Facades\Navi::class);
 }, 20);
