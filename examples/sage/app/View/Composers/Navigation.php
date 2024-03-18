@@ -17,28 +17,10 @@ class Navigation extends Composer
     ];
 
     /**
-     * Data to be passed to view before rendering.
-     *
-     * @return array
+     * Retrieve the primary navigation menu.
      */
-    public function with()
+    public function navigation(): array
     {
-        return [
-            'navigation' => $this->navigation(),
-        ];
-    }
-
-    /**
-     * Returns the primary navigation.
-     *
-     * @return array
-     */
-    public function navigation()
-    {
-        if (Navi::build()->isEmpty()) {
-            return;
-        }
-
         return Navi::build()->toArray();
     }
 }
