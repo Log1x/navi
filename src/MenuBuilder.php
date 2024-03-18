@@ -141,7 +141,7 @@ class MenuBuilder
 
             $item->children = $this->handle($items, $item->id);
 
-            $menu[] = $item;
+            $menu[$item->id] = $item;
 
             unset($item);
         }
