@@ -2,8 +2,8 @@
 
 namespace App\View\Composers;
 
-use Roots\Acorn\View\Composer;
 use Log1x\Navi\Facades\Navi;
+use Roots\Acorn\View\Composer;
 
 class Navigation extends Composer
 {
