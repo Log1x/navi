@@ -22,6 +22,8 @@ Install via Composer:
 $ composer require log1x/navi
 ```
 
+#### (NOTE: must be Composer installed in the bedrock/site directory and not the theme dir.)
+
 ### Manual
 
 Download the [latest release](https://github.com/Log1x/navi/releases/latest) `.zip` and install into `wp-content/plugins`.
