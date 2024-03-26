@@ -57,6 +57,20 @@ $navigation->get()->name;
 $navigation->get('name', 'My menu title');
 ```
 
+### Acorn Usage
+
+If you are using Navi alongside [Acorn](https://roots.io/acorn/) (e.g. Sage), you may generate a usable view component using Acorn's CLI:
+
+```sh
+$ acorn make:navi
+```
+
+Once generated, you may use the [view component](https://laravel.com/docs/11.x/blade#components) in an existing view like so:
+
+```php
+<x-navigation />
+```
+
 ### Accessing Page Objects
 
 If your menu item is linked to a page object (e.g. not a custom link) – you can retrieve the ID of the page using the `objectId` attribute.
