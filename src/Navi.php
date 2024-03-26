@@ -15,6 +15,11 @@ class Navi
     protected array $items = [];
 
     /**
+     * The default menu.
+     */
+    protected string $default = 'primary_navigation';
+
+    /**
      * Create a new Navi instance.
      */
     public function __construct(array $items = [])
@@ -35,8 +40,10 @@ class Navi
     /**
      * Build the navigation menu items.
      */
-    public function build(string $menu = 'primary_navigation'): self
+    public function build(mixed $menu = null): self
     {
+        $menu = $menu ?? $this->default;
+
         if (is_string($menu)) {
             $locations = get_nav_menu_locations();
 
