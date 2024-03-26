@@ -60,7 +60,7 @@ class Navi
 
         $items = wp_get_nav_menu_items($this->menu);
 
-        $this->items = MenuBuilder::make()->build($items ?? []);
+        $this->items = MenuBuilder::make()->build($items ?: []);
 
         return $this;
     }
