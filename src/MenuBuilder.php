@@ -130,7 +130,7 @@ class MenuBuilder
     /**
      * Handle the menu item hierarchy.
      */
-    protected function handle(array $items, int $parent = 0): array
+    protected function handle(array $items, string|int $parent = 0): array
     {
         $menu = [];
 
