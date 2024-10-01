@@ -164,7 +164,7 @@ class Navi
     public function withoutClasses(string|array $classes): self
     {
         if ($this->menu) {
-            throw new MenuLifecycleException('Attributes must be set before building the menu.');
+            throw new MenuLifecycleException('Classes must be set before building the menu.');
         }
 
         $classes = is_string($classes)
