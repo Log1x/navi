@@ -41,9 +41,28 @@ class NaviMakeCommand extends GeneratorCommand
             return false;
         }
 
-        $name = strtolower(trim($this->argument('name')));
+        $component = Str::of($this->argument('name'))
+            ->lower()
+            ->trim();
 
-        $this->components->info("Navi component <fg=blue><x-{$name} /></> is ready for use.");
+        $default = $this->option('default') ?? 'primary_navigation';
+
+        $locations = collect(get_registered_nav_menus())
+            ->take(5)
+            ->map(fn ($name, $slug) => $slug === $default
+                ? "{$name}: <fg=blue><x-{$component} /></>"
+                : "{$name}: <fg=blue><x-{$component} name=\"{$slug}\" /></>"
+            );
+
+        $this->components->info("Navi component <fg=blue><x-{$component} /></> is ready for use.");
+
+        if ($locations->isEmpty()) {
+            $this->components->warn('Your theme does not appear to have any registered navigation menu locations.');
+
+            return;
+        }
+
+        $this->components->bulletList($locations->all());
     }
 
     /**
