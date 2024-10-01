@@ -2,6 +2,8 @@
 
 namespace Log1x\Navi;
 
+use Log1x\Navi\Exceptions\MenuLifecycleException;
+
 class Navi
 {
     /**
@@ -18,6 +20,17 @@ class Navi
      * The default menu.
      */
     protected string $default = 'primary_navigation';
+
+    /**
+     * The disallowed menu classes.
+     */
+    protected array $disallowedClasses = [
+        'current-page',
+        'current-menu',
+        'menu-item',
+        'page-item',
+        'sub-menu',
+    ];
 
     /**
      * Create a new Navi instance.
@@ -60,14 +73,15 @@ class Navi
 
         $items = wp_get_nav_menu_items($this->menu);
 
-        $this->items = MenuBuilder::make()->build($items ?: []);
+        $this->items = MenuBuilder::make()
+            ->withoutClasses($this->disallowedClasses())
+            ->build($items ?: []);
 
         return $this;
     }
 
     /**
-     * Retrieve the specified key from the WordPress menu object.
-     * If no key is specified, the entire menu object will be returned.
+     * Retrieve data from the WordPress menu object.
      */
     public function get(?string $key = null, mixed $default = null): mixed
     {
@@ -83,7 +97,7 @@ class Navi
     }
 
     /**
-     * Determine if Navi is empty.
+     * Determine if the menu is empty.
      */
     public function isEmpty(): bool
     {
@@ -91,7 +105,7 @@ class Navi
     }
 
     /**
-     * Determine if Navi is not empty.
+     * Determine if the menu is not empty.
      */
     public function isNotEmpty(): bool
     {
@@ -99,7 +113,7 @@ class Navi
     }
 
     /**
-     * Retrieve the Navi items.
+     * Retrieve the menu items.
      */
     public function all(): array
     {
@@ -107,7 +121,7 @@ class Navi
     }
 
     /**
-     * Retrieve the Navi items as an array.
+     * Retrieve the menu items as an array.
      */
     public function toArray(): array
     {
@@ -115,11 +129,75 @@ class Navi
     }
 
     /**
-     * Retrieve the Navi items as JSON.
+     * Retrieve the menu items as JSON.
      */
     public function toJson(int $options = 0): string
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * The classes to allow on menu items.
+     *
+     * @throws \Log1x\Navi\Exceptions\MenuLifecycleException
+     */
+    public function withClasses(string|array $classes): self
+    {
+        if ($this->menu) {
+            throw new MenuLifecycleException('Classes must be set before building the menu.');
+        }
+
+        $classes = is_string($classes)
+            ? explode(' ', $classes)
+            : $classes;
+
+        $this->disallowedClasses = array_diff($this->disallowedClasses, $classes);
+
+        return $this;
+    }
+
+    /**
+     * The classes to remove from menu items.
+     *
+     * @throws \Log1x\Navi\Exceptions\MenuLifecycleException
+     */
+    public function withoutClasses(string|array $classes): self
+    {
+        if ($this->menu) {
+            throw new MenuLifecycleException('Attributes must be set before building the menu.');
+        }
+
+        $classes = is_string($classes)
+            ? explode(' ', $classes)
+            : $classes;
+
+        $this->disallowedClasses = array_unique([
+            ...$this->disallowedClasses,
+            ...$classes,
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * Allow the disallowed classes on menu items.
+     */
+    public function withDefaultClasses(): self
+    {
+        $this->disallowedClasses = [];
+
+        return $this;
+    }
+
+    /**
+     * Retrieve the disallowed classes.
+     */
+    protected function disallowedClasses(): array
+    {
+        return array_merge(...array_map(fn ($class) => [
+            $class,
+            str_replace('-', '_', $class),
+        ], $this->disallowedClasses));
     }
 
     /**

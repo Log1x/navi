@@ -23,6 +23,7 @@ class MenuBuilder
         'label' => 'title',
         'object' => 'object',
         'objectId' => 'object_id',
+        'order' => 'menu_order',
         'parent' => 'menu_item_parent',
         'slug' => 'post_name',
         'target' => 'target',
@@ -30,25 +31,12 @@ class MenuBuilder
         'type' => 'type',
         'url' => 'url',
         'xfn' => 'xfn',
-        'order' => 'menu_order',
     ];
 
     /**
-     * The disallowed menu classes.
+     * The classes to remove from menu items.
      */
-    protected array $disallowedClasses = [
-        'current-menu',
-        'current_page',
-        'sub-menu',
-        'menu-item',
-        'menu-item-type-post_type',
-        'menu-item-object-page',
-        'menu-item-type-custom',
-        'menu-item-object-custom',
-        'menu_item',
-        'page-item',
-        'page_item',
-    ];
+    protected array $withoutClasses = [];
 
     /**
      * Make a new Menu Builder instance.
@@ -93,7 +81,15 @@ class MenuBuilder
         _wp_menu_item_classes_by_context($menu);
 
         return array_map(function ($item) {
-            $classes = array_filter($item->classes, fn ($class) => ! in_array($class, $this->disallowedClasses));
+            $classes = array_filter($item->classes, function ($class) {
+                foreach ($this->withoutClasses as $value) {
+                    if (str_starts_with($class, $value)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
 
             $item->classes = is_array($classes) ? implode(' ', $classes) : $classes;
 
@@ -142,10 +138,18 @@ class MenuBuilder
             $item->children = $this->handle($items, $item->id);
 
             $menu[$item->id] = $item;
-
-            unset($item);
         }
 
         return $menu;
+    }
+
+    /**
+     * Remove classes from menu items.
+     */
+    public function withoutClasses(array $classes = []): self
+    {
+        $this->withoutClasses = $classes;
+
+        return $this;
     }
 }
