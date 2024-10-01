@@ -3,7 +3,7 @@
 namespace Log1x\Navi\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Log1x\Navi\Console\NaviMakeCommand;
+use Log1x\Navi\Console;
 use Log1x\Navi\Navi;
 
 class NaviServiceProvider extends ServiceProvider
@@ -27,7 +27,8 @@ class NaviServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                NaviMakeCommand::class,
+                Console\NaviListCommand::class,
+                Console\NaviMakeCommand::class,
             ]);
         }
     }
