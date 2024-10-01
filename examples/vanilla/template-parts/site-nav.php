@@ -11,7 +11,7 @@ $navigation = \Log1x\Navi\Navi::make()->build('primary-menu');
 <?php if ( $navigation->isNotEmpty() ) : ?>
     <nav id="site-navigation" class="main-navigation">
         <ul id="primary-menu">
-            <?php foreach ( $navigation->toArray() as $item ) : ?>
+            <?php foreach ( $navigation->all() as $item ) : ?>
                 <li class="<?php echo $item->classes; ?> <?php echo $item->active ? 'current-item' : ''; ?>">
                     <a href="<?php echo $item->url; ?>">
                         <?php echo $item->label; ?>
