@@ -4,7 +4,7 @@
  * Plugin Name: Navi
  * Plugin URI:  https://github.com/log1x/navi
  * Description: A developer-friendly alternative to the WordPress NavWalker.
- * Version:     3.1.0
+ * Version:     3.1.1
  * Author:      Brandon Nifong
  * Author URI:  https://github.com/log1x
  */
