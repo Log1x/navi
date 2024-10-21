@@ -21,7 +21,7 @@ class NaviMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:navi';
+    protected $name = 'navi:make';
 
     /**
      * The type of file being generated.
