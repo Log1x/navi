@@ -80,6 +80,8 @@ class MenuBuilder
 
         _wp_menu_item_classes_by_context($menu);
 
+        $menu = apply_filters('wp_nav_menu_objects', $menu, []);
+
         return array_map(function ($item) {
             $classes = array_filter($item->classes, function ($class) {
                 foreach ($this->withoutClasses as $value) {
